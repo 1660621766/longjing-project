@@ -8,9 +8,22 @@ module.exports = {
   dev: {
 
     // Paths
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    proxyTable: {},
+    assetsSubDirectory: 'static',// 静态资源文件夹
+    assetsPublicPath: '/',// 发布路径
+    proxyTable: {
+      '/proxy': {
+        // target: 'http://182.61.148.232:80',
+        target: 'http://192.168.1.19/proxy',
+        // target: 'http://182.61.148.232',
+        changeOrigin: true,//允许跨域
+        //将对资源的请求重定向到另一路径
+        pathRewrite: {
+          '^/proxy': ''
+        }
+      }
+    },
+    //staticPath:'/static',//api静态资源
+    staticPath: '/static/',
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -20,7 +33,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -43,7 +56,8 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '../', //生产环境assetsPublicPath: '/'
+    staticPath: '../',        //生产环境 staticPath:''
 
     /**
      * Source Maps

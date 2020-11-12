@@ -1,9 +1,9 @@
-import server from './server';
+import http from './http';
 import {BASE_URL as BaseUrl} from './ipconfig';
 //statisticalPage页面
-export const statisticalPageUrl={
+export default {
     getModalData:function(data){
-        return server({
+        return http({
             url: `${BaseUrl}/api/v1/rpa/stepExecute/rate`,
             method: 'post',
             dataType: "json",
@@ -12,7 +12,7 @@ export const statisticalPageUrl={
     },
     
     getFlowListData:function(){
-        return server({
+        return http({
             url: `${BaseUrl}/api/v1/rpa/group/1`,
             method: 'get',
             dataType: "json",
@@ -20,7 +20,7 @@ export const statisticalPageUrl={
     },
     getBotListData:function(data){
         // return new Promise((resolve, reject){})
-        return server({
+        return http({
             url: `${BaseUrl}/api/v1/rpa/flowExecute/rate`,
             method: 'post',
             dataType: "json",

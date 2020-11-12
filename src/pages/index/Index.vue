@@ -29,18 +29,25 @@
 </template>
 
 <script>
+
+import Cookies from 'js-cookie';
+import sever from '../../api/index';
+
 export default {
-    data() {
-      return {
-        activeIndex: '1',
-        activeIndex2: '1'
-      };
+  data() {
+    return {
+      activeIndex: "1",
+      activeIndex2: "1",
+    };
+  },
+  mounted() {
+    // Cookies.set("refresh", true); //设置是否刷新参数refresh
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      // console.log(key, keyPath);
     },
-    methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    }
+  },
 };
 </script>
 

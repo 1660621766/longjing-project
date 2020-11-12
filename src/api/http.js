@@ -1,16 +1,13 @@
 import axios from 'axios';
-import { createHashHistory } from 'history'; // 如果是hash路由
-import { actions } from '../store/botList/actions'  // 获取 
 import store from '../store/index'  // 获取 store
-
-const history = createHashHistory();
+import { Message } from 'element-ui';
+import router from '../router';
 /** 
  * 跳转登录页
  * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
  */
 const toLogin = () => {
-    console.log(this);
-    history.push('/login');
+    router.replace({ path: '/login' });
 }
 
 /** 
@@ -39,11 +36,27 @@ const errorHandle = (status, other) => {
             break;
         case 500:
             // alert('没有服务');
-            // toLogin();
+            break;
+        case 501:
+            err.message = '网络未实现';
+            break;
+        case 502:
+            err.message = '网络错误';
+            break;
+        case 503:
+            err.message = '服务不可用';
+            break;
+        case 504:
+            err.message = '网络超时';
+            router.replace({ path: '/error/404' });
+            break;
+        case 505:
+            err.message = 'http版本不支持该请求';
             break;
         default:
-            console.log(other);
+            err.message = `连接错误${err.response.status}`;
     }
+    Message.error({message : err.message});
 }
 
 //取消请求
@@ -73,20 +86,23 @@ axios.interceptors.request.use(config => {
     token && (config.headers.Authorization = `Bearer ${token}`);
     // config.headers['Access-Control-Allow-Origin']='*'
     if (!config.headers['Content-Type']) {
-        // config.headers = {
-        //     'Content-Type': 'application/json'
-        // }
         // config.headers['Content-Type'] = 'application/json'
     }
     if (config.method === 'get') {
         config.params = config.params || {};
     } else {
-        config.data = config.data || {}
+        config.data = config.data || {};
+        // `params` 是即将与请求一起发送的 URL 参数  params是请求配置中的参数
+        config.params = {
+            _t: Date.parse(new Date()) / 1000,//添加时间戳  IE缓存严重
+            ...config.params
+        }
     }
-    // window.store.dispatch(actions.isLoading(true))  // 加载的时候
-    store.dispatch(actions.isLoading(true));
+    // store.dispatch(actions.isLoading(true));// 加载的时候
     return config
 }, error => {
+    //当出现请求错误是做一些事
+    Message.error({ message: '请求超时!' });
     return Promise.reject(error)
 })
 // respone拦截器
@@ -95,7 +111,7 @@ axios.interceptors.response.use(
         const res = response;
         //这里根据后台返回来设置
         if (res.status === 200) {
-            store.dispatch(actions.isLoading(false));
+            // store.dispatch(actions.isLoading(false));
             return response;
         } else {
             // return Promise.reject(error);
@@ -104,7 +120,7 @@ axios.interceptors.response.use(
 
     },
     error => {
-        store.dispatch(actions.isLoading(false));
+        // store.dispatch(actions.isLoading(false));
         errorHandle(error.response.status, error.response.data.message);
         return Promise.reject(error)
     }
