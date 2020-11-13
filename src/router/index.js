@@ -3,10 +3,10 @@ import Router from 'vue-router'
 import store from '../store/index.js';  //状态store
 import HelloWorld from '@/components/HelloWorld'
 import Index from '@/pages/index/Index'
-import Login from '@/pages/index/Index'
+import Login from '@/pages/login/Login'
 import Err401 from '@/pages/error/401'
 import Err404 from '@/pages/error/404'
-
+import Layout from '@/pages/layout/Layout'
 
 Vue.use(Router)
 
@@ -33,12 +33,12 @@ const constantRouterMap = [
     hidden: true,
   },
   ,{
-    path: '/Index',
-    component: Index,
+    path: '/home',
+    component: Layout,
     redirect: 'noredirect',
     name: '首页',
     children: [
-      { path: 'aaa', component: Index, name: 'aaa' },
+      { path: 'Index', component: Index, name: 'aaa' },
     ]
   },
   { path: '*', redirect: '/error/404', hidden: true }

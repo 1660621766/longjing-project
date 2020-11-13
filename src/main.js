@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
 	//在浏览器控制台记录路由跳转
 	// console.log(from, '路由---->', to);
 	// 判断是否有token。接口会有延迟
-	if(Cookies.get('refresh')) {
+	if(!Cookies.get('refresh')) {
 		if(to.path == '/login') { //当其再访问登录页面（to.path === '/login'）时，可直接重定向到首页
 			next({
 				path: '/'
@@ -43,10 +43,10 @@ router.beforeEach((to, from, next) => {
 		} else {
 			//添加loading
 			if(whiteList.indexOf(to.path) == -1 && to.path != from.path) { // 不在免登录白名单，添加loading效果
-				loadingInstance = Loading.service({text:"拼命加载中",target: '.main',fullscreen: false,body:false});
+				// loadingInstance = Loading.service({text:"拼命加载中",target: '.main-container',fullscreen: false,body:false});
 			}
 			//避免F5刷新时，vex数据全无，所以需要重新获取一次数据
-			if(!store.getters.userInfo) { //判断是否有用户信息 把token换成userInfo
+			if(!!store.getters.userInfo) { //判断是否有用户信息 把token换成userInfo
 				// console.log('未获取到用户信息', store.getters.userInfo);
 				store.dispatch('GetInfo').then(res => { // 拉取user_info
 					// console.log('已获取到用户信息', store.getters.userInfo);
@@ -75,7 +75,7 @@ router.beforeEach((to, from, next) => {
           			if(flag){
             			next();
          			}else{
-         				if(to.path == "/user/Personal" && from.path =="/"){
+         				if(to.path == "/home/Index" && from.path =="/"){
 							next();
          				}else{
          					next({path: '/'});
