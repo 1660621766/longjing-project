@@ -1,12 +1,16 @@
 <template>
-  <div id="app">
+  <div id="app" class="apps">
     <router-view />
   </div>
 </template>
 
 <script>
+import { utils } from "./utils";
 export default {
   name: "App",
+  mounted() {
+    utils.setContentHeight(); //自动计算高度
+  },
 };
 </script>
 
@@ -15,11 +19,15 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center;
-  color: #2c3e50;
-  margin-top: 60px; */
+  height: inherit;
 }
-body {
+body,
+h2,
+p {
   margin: 0;
+}
+html,
+body {
+  /* min-height: 100%; */
 }
 </style>

@@ -2,9 +2,9 @@
     <div class="app-wrapper">
         <navbar/>
         <div class="main-container">
-        	<div class="sidebar-wrapper">
+        	<!-- <div class="sidebar-wrapper">
         		<sidebar class="sidebar-container" />
-        	</div>
+        	</div> -->
             <app-main/>
         </div>
     </div>
@@ -30,5 +30,8 @@
 </script>
 
 <style rel="stylesheet/less" lang="less" scoped>
-
+.app-wrapper{
+  height: inherit;
+  background: #F5F5F5;
+}
 </style>

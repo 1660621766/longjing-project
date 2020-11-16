@@ -9,7 +9,7 @@
         <div class="header_btm">
           <el-menu
             :default-active="activeIndex"
-            class="el-menu-demo"
+            class="header_nav"
             mode="horizontal"
             @select="handleSelect"
           >
@@ -37,12 +37,11 @@ export default {
     getModalData({
         type: 0,
         sort: 1,
-      }.then((res) => {
+      }).then((res) => {
           
       },err =>{
           console.log('ajax error')
-      })
-    );
+      });
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -56,6 +55,7 @@ export default {
 .header {
   min-height: 120px;
   padding: 0;
+  background: #ffffff;
   .header_top {
     height: 50%;
     padding: 0 10px;
@@ -63,6 +63,11 @@ export default {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #eee;
+  }
+  .header_btm{
+    .header_nav{
+      padding-left: 30%;
+    }
   }
 }
 </style>

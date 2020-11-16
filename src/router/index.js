@@ -38,7 +38,7 @@ const constantRouterMap = [
     redirect: 'noredirect',
     name: '首页',
     children: [
-      { path: 'Index', component: Index, name: 'aaa' },
+      { path: 'Index', component: Index, name: 'index' },
     ]
   },
   { path: '*', redirect: '/error/404', hidden: true }
