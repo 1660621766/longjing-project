@@ -21,13 +21,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   height: inherit;
 }
-body,
-h2,
-p {
+body,h1,h2,h3,h4,h5,p {
   margin: 0;
 }
 html,
 body {
-  /* min-height: 100%; */
+  height: 100%;
 }
 </style>

@@ -33,5 +33,9 @@
 .app-wrapper{
   height: inherit;
   background: #F5F5F5;
+  .main-container{
+    padding: 20px 15px;
+    background: #F5F5F5;
+  }
 }
 </style>

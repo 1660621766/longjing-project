@@ -7,6 +7,8 @@ import Login from '@/pages/login/Login'
 import Err401 from '@/pages/error/401'
 import Err404 from '@/pages/error/404'
 import Layout from '@/pages/layout/Layout'
+import Todo from '@/pages/todoPage/Todo'
+import Panel from '@/pages/proMainPanel/Panel'
 
 Vue.use(Router)
 
@@ -39,6 +41,24 @@ const constantRouterMap = [
     name: '首页',
     children: [
       { path: 'Index', component: Index, name: 'index' },
+    ]
+  },
+  {
+    path: '/home',
+    component: Layout,
+    redirect: 'noredirect',
+    name: '我的代办',
+    children: [
+      { path: 'Todo', component: Todo, name: 'todo' },
+    ]
+  },
+  {
+    path: '/home',
+    component: Layout,
+    redirect: 'noredirect',
+    name: '项目面板',
+    children: [
+      { path: 'Panel', component: Panel, name: 'panel' },
     ]
   },
   { path: '*', redirect: '/error/404', hidden: true }
