@@ -1,5 +1,8 @@
 <template>
-  <div :id="id" :style="{ width: '300px', height: '300px' }"></div>
+  <div class="pie-wraper">
+    <div :id="id" :style="{ width: '250px', height: '250px' }"></div>
+    <div class="pie-text">任务分配比例</div>
+  </div>
 </template>
 
 <script>
@@ -27,30 +30,32 @@ export default {
   methods: {
     initChart() {
       let that = this;
-      let myChart = echarts.init(document.getElementById(this.id));
+      let pieChart = echarts.init(document.getElementById(this.id));
       let option = {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)",
-          transitionDuration: 0//解决首次闪屏的问题
+          transitionDuration: 0, //解决首次闪屏的问题
+          showContent: false,
         },
         legend: {
-          orient: "vertical",
+          // orient: "vertical",
           left: "center",
           data: ["完成", "未完成"],
+          icon: "circle",
         },
-        color:['#5B90FA', '#E7F3FF'],
+        color: ["#5B90FA", "#E7F3FF"],
         series: [
           {
             name: "统计结果",
             type: "pie",
-            radius: "70%",
-            center: ["50%", "60%"],
-             label: {
-                        position: 'inner',
-                        formatter: '{d}%',
-                        color: '#aaa'
-                    },
+            radius: "60%",
+            center: ["50%", "45%"],
+            label: {
+              position: "inner",
+              formatter: "{d}%",
+              color: "#aaa",
+            },
             data: [
               { value: 335, name: "完成" },
               { value: 130, name: "未完成" },
@@ -66,11 +71,30 @@ export default {
         ],
       };
 
-      myChart.setOption(option);
+      pieChart.setOption(option);
+      let id=this.id
+      setTimeout(function () {
+        //方法2
+        window.addEventListener("resize", function () {
+          let infactWidth = $('.index-echarts_box').width()/3 >250 ? 250 :  $('.index-echarts_box').width()/3;
+          $('#'+id).width();
+          //监听
+          pieChart.resize();
+        });
+      }, 200);
     },
   },
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.pie-wraper {
+  position: relative;
+  .pie-text {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+  }
+}
 </style>

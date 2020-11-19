@@ -9,7 +9,7 @@ import Err404 from '@/pages/error/404'
 import Layout from '@/pages/layout/Layout'
 import Todo from '@/pages/todoPage/Todo'
 import Panel from '@/pages/proMainPanel/Panel'
-import Attendance from '@/pages/attendance/Attendance'
+import SubPanel from '@/pages/subLayout/SubLayout'
 
 Vue.use(Router)
 
@@ -21,7 +21,7 @@ const constantRouterMap = [
   //路由 /  重定向到首页
   {
     path: '/',
-    //redirect: '/lbs/CarGps',  //路由为 / 就重定向到默认首页
+    //redirect: '/Login',  //路由为 / 就重定向到默认首页
     redirect: to => {
       // 方法接收 目标路由 作为参数
       // return 重定向的 字符串路径/路径对
@@ -68,7 +68,7 @@ const constantRouterMap = [
     redirect: 'noredirect',
     name: '考勤',
     children: [
-      { path: 'Attendance', component: Attendance, name: 'attendance' },
+      { path: 'SubPanel', component: SubPanel, name: 'subPanel' },
     ]
   },
   { path: '*', redirect: '/error/404', hidden: true }

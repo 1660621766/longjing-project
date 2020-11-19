@@ -9,11 +9,16 @@
         </el-carousel>
       </div>
       <div class="index-echarts">
-        <chart-pie
-          v-for="item in 3"
-          :key="item"
-          :id="'myCharts' + item"
-        ></chart-pie>
+        <div class="index-echarts_title">
+          <h3>xxx项目</h3>
+        </div>
+        <div class="index-echarts_box">
+          <chart-pie
+            v-for="item in 3"
+            :key="item"
+            :id="'myCharts' + item"
+          ></chart-pie>
+        </div>
       </div>
     </div>
     <div class="index-wrapper_r">
@@ -86,12 +91,18 @@ export default {
       }
     }
     .index-echarts {
-      display: flex;
-      justify-content: space-between;
       background: #fff;
       margin-top: 15px;
       border: 1px solid #eee;
       border-radius: 8px;
+      .index-echarts_title{
+        margin: 10px 0;
+        padding: 0 10px;
+      }
+      .index-echarts_box{
+        display: flex;
+       justify-content: space-between;
+      }
     }
   }
   .index-wrapper_r {
@@ -112,7 +123,7 @@ export default {
         align-items: center;
         justify-content: center;
         border-radius: 12px;
-        background: #F4F5F7;
+        background: #f4f5f7;
       }
     }
   }

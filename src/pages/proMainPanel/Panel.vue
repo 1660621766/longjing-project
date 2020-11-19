@@ -73,7 +73,7 @@ const listData = [
   {
     text: "施工相关",
     list: [
-      { name: "人员考勤", path: "/home/Attendance" },
+      { name: "人员考勤", path: "/home/SubPanel" ,id:'kq'},
       { name: "添加物料", path: "" },
       { name: "添加物料", path: "" },
       { name: "添加物料", path: "" },
@@ -84,7 +84,7 @@ const listData = [
     list: [
       { name: "添加物料", path: "" },
       { name: "添加物料", path: "" },
-      { name: "添加物料", path: "" },
+      { name: "填写我的工作日志", path: "/home/SubPanel",id:'log' },
     ],
   },
 ];

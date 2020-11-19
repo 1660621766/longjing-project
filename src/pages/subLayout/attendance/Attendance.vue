@@ -1,13 +1,5 @@
 <template>
-  <div class="attendance-wrapper">
-    <div class="attendance-bread">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>项目A</el-breadcrumb-item>
-        <el-breadcrumb-item>人员考勤</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <h3>人员考勤</h3>
-    <div class="attendance-con">
+  <div class="attendance-con">
       <div class="attendance-con_map">map</div>
       <div class="attendance-con_table">
         <div class="attendance-con_table--tabs">
@@ -43,7 +35,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -87,13 +78,16 @@ const list = [
   },
 ];
 export default {
-  data() {
+ data() {
     return {
       activeIndex: "1",
       searchVal: "",
       tableData: list,
       isShow: true,
     };
+  },
+  mounted() {
+   
   },
   components: {
     tableComponent,
@@ -112,15 +106,11 @@ export default {
       this.dataFilter(value)
     }
   }
-};
+}
 </script>
 
-<style lang="less" scoped>
-.attendance-wrapper {
-  .attendance-bread {
-    margin-bottom: 10px;
-  }
-  .attendance-con {
+<style lang="less" scope>
+.attendance-con {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
@@ -145,5 +135,4 @@ export default {
       }
     }
   }
-}
 </style>

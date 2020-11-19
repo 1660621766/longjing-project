@@ -5,7 +5,7 @@
       <router-link
         v-for="(item, index) in listData.list"
         :key="index"
-        :to="item.path"
+        :to="{path:item.path,query:{name:item.name}}"
       >
         <el-button size="small" type="goon">{{ item.name }}</el-button>
       </router-link>
@@ -17,7 +17,8 @@
 export default {
   props: ["listData"],
   data() {
-    return {};
+    return {
+    };
   },
   mounted() {
     // console.log(this.listData);
