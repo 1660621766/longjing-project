@@ -18,6 +18,7 @@
             mode="horizontal"
             @select="handleSelect"
             router
+            active-text-color="#0955AD"
           >
             <el-menu-item index="/home/Index">首页</el-menu-item>
             <el-menu-item index="/home/Todo">我的代办</el-menu-item>
@@ -39,7 +40,7 @@ export default {
     };
   },
   mounted() {
-    this.activeIndex=this.$route.path;
+    this.activeIndex=this.$route.path =="/home/Attendance" ? "/home/Panel" : this.$route.path;
     getModalData({
         type: 0,
         sort: 1,
@@ -60,7 +61,7 @@ export default {
   },
   watch:{
     $route(now, old) { //监控路由变换，控制返回按钮的显示
-        this.activeIndex=now.path;
+        this.activeIndex = now.path =="/home/Attendance" ? "/home/Panel" : now.path;
 			}
   },
   methods: {

@@ -9,7 +9,7 @@ import { utils } from "./utils";
 export default {
   name: "App",
   mounted() {
-    utils.setContentHeight(); //自动计算高度
+    // utils.setContentHeight(); //自动计算高度
   },
 };
 </script>
