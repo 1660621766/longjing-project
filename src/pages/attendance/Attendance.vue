@@ -1,4 +1,6 @@
 <template>
+<div class="attendance-wrapper">
+  <Bread :infoProps="breadName"></Bread>
   <div class="attendance-con">
       <div class="attendance-con_map">map</div>
       <div class="attendance-con_table">
@@ -28,17 +30,19 @@
           </el-menu>
         </div>
         <div class="attendance-con_table--com">
-          <table-component
+          <Table-component
             :tableData="tableData"
             :isShow="isShow"
-          ></table-component>
+          ></Table-component>
         </div>
       </div>
     </div>
+</div>
 </template>
 
 <script>
-import tableComponent from "@/components/Table";
+import TableComponent from "@/components/Table";
+import Bread from "@/components/Bread";
 const list = [
   {
     date: "2016-05-02",
@@ -84,13 +88,15 @@ export default {
       searchVal: "",
       tableData: list,
       isShow: true,
+      breadName:''
     };
   },
   mounted() {
-   
+   this.breadName = this.$route.query.name
   },
   components: {
-    tableComponent,
+    TableComponent,
+    Bread
   },
   methods: {
     handleSelect(key, keyPath) {

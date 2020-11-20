@@ -9,7 +9,7 @@ import Err404 from '@/pages/error/404'
 import Layout from '@/pages/layout/Layout'
 import Todo from '@/pages/todoPage/Todo'
 import Panel from '@/pages/proMainPanel/Panel'
-import SubPanel from '@/pages/subLayout/SubLayout'
+import Attendance from '@/pages/attendance/Attendance'
 
 Vue.use(Router)
 
@@ -68,7 +68,7 @@ const constantRouterMap = [
     redirect: 'noredirect',
     name: '考勤',
     children: [
-      { path: 'SubPanel', component: SubPanel, name: 'subPanel' },
+      { path: 'Attendance', component: Attendance, name: 'attendance' },
     ]
   },
   { path: '*', redirect: '/error/404', hidden: true }
