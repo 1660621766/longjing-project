@@ -1,4 +1,10 @@
 import Cookies from 'js-cookie';
+import { Message } from 'element-ui';
+// import instance from 'src/global/http';
+import router from '@/router'; //路由
+import axios from 'axios';
+import getModalData from '@/api';
+import Base64 from '../../../static/base64';
 
 const user = {
 	//state状态 类似于vue中的data
@@ -50,11 +56,10 @@ const user = {
 			return new Promise((resolve, reject) => {
 				// console.log('登录入参：', userInfo);
 				//调用接口
-				instance.post('/proxy/auth/login', userInfo).then(res => {
+				getModalData({a:1}).then(res => {
 					if (res.status == 200 && res.data.success) {
 						Cookies.set('userName', userInfo.account, { expires: 14, path: '' }); //设置token
 						Cookies.set('refresh', true); //设置是否刷新参数refresh
-						Cookies.set('entCode', userInfo.entCode, { expires: 14, path: '' }); //设置token
 						if (userInfo.checked) {
 							let base = new Base64();
 							let basePassWord = base.encode(userInfo.password); //base64加密设置密码
@@ -142,22 +147,7 @@ const user = {
 				}));
 			});
 		},
-		// 第三方验证登录
-		LoginByThirdparty({
-			commit,
-			state
-		}, code) {
-			return new Promise((resolve, reject) => {
-				commit('SET_CODE', code);
-				loginByThirdparty(state.status, state.email, state.code, state.auth_type).then(response => {
-					commit('SET_TOKEN', response.data.token); //修改token
-					//Cookies.set('userToken', response.data.token);//cookies设置token
-					resolve();
-				}).catch(error => {
-					reject(error);
-				});
-			});
-		},
+
 	}
 }
 

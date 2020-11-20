@@ -160,10 +160,9 @@ export default {
           border-radius: 13px;
           color: #999;
         }
-        .panel-plan_order--active {
-          //    background: #409EFF;
-          //    color: #fff;
-        }
+        // .panel-plan_order--active {
+        
+        // }
         .panel-plan_line {
           width: 100px;
           margin-bottom: 5px;

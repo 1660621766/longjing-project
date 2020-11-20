@@ -77,7 +77,7 @@ export default {
         //方法2
         window.addEventListener("resize", function () {
           let infactWidth = $('.index-echarts_box').width()/3 >250 ? 250 :  $('.index-echarts_box').width()/3;
-          $('#'+id).width();
+          $('#'+id).width(infactWidth);
           //监听
           pieChart.resize();
         });

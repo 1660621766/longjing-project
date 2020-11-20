@@ -14,17 +14,21 @@
       class="login_form"
       size="medium"
     >
-      <el-form-item label="请输入用户名" prop="name">
-        <el-input v-model="loginForm.name"></el-input>
+      <el-form-item label="请输入用户名" prop="account">
+        <el-input v-model="loginForm.account"></el-input>
       </el-form-item>
       <div class="login_form--btn">
         <el-button type="text">忘记密码?</el-button>
       </div>
       <el-form-item label="请输入密码" prop="pass">
-        <el-input type="password" v-model="loginForm.pass" autocomplete="off"></el-input>
+        <el-input
+          type="password"
+          v-model="loginForm.pass"
+          autocomplete="off"
+        ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('loginForm')"
+        <el-button type="primary" @click="handleLogin"
           >登录</el-button
         >
       </el-form-item>
@@ -34,41 +38,49 @@
 
 <script>
 import { getModalData } from "@/api/index";
+import { validate } from "@/utils/validate";
+import Cookies from "js-cookie";
+import { Message } from "element-ui";
+// import Base64 from "../../../static/base64";
+// import md5 from "blueimp-md5";
+import { utils } from "@/utils";
 export default {
   data() {
     var validateName = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入用户名"));
       } else {
-        if (this.loginForm.name !== "") {
+        if (this.loginForm.account !== "") {
           this.$refs.loginForm.validateField("checkPass");
         }
         callback();
       }
     };
     var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.loginForm.pass !== '') {
-            this.$refs.loginForm.validateField('checkPass');
-          }
-          callback();
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (this.loginForm.pass !== "") {
+          this.$refs.loginForm.validateField("checkPass");
         }
-      };
+        callback();
+      }
+    };
     return {
       loginForm: {
         pass: "",
-        name: "",
+        account: "",
+        imgSrc: "#", //动态获取验证码
+        checked: true
       },
+      logining: false,
       rules: {
-          name: [
-            { validator: validateName, trigger: 'blur' }
-          ],
-          pass: [
-            { validator: validatePass, trigger: 'blur' }
-          ]
-        }
+        account: [{ validator: validateName, trigger: "blur" }],
+        pass: [{ validator: validatePass, trigger: "blur" }],
+        identifyCode: [
+          { required: true, message: "请输入验证码", trigger: "blur" }
+        ],
+      },
     };
   },
   mounted() {
@@ -90,14 +102,57 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$router.push({
-            path:'home/Index'
-          })
+            path: "home/Index",
+          });
         } else {
           console.log("error!!");
           return false;
         }
       });
     },
+    //登录
+    handleLogin() {
+      let vm = this;
+      //调用方法isValidate  form表单校验  第一个参数this  第二个参数是from表单ref的值  第三个参数是form表单提交参数
+      validate.isValidate(
+        vm,
+        "loginForm",
+        (formData) => {
+          if (formData.validates) {
+            formData.param.flags = true;
+            vm.logining = true;
+            vm.$store
+              .dispatch("Login", formData.param)
+              .then((res) => {
+                vm.$store
+                  .dispatch("GetInfo")
+                  .then((res) => {
+                    // 拉取user_info
+                    vm.$router.push({ path: "/" });
+                    vm.logining = false;
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    vm.logining = false;
+                  });
+              })
+              .catch((err) => {
+                Message.error(err);
+                vm.changeCode();
+                vm.loginForm.identifyCode = "";
+                vm.logining = false;
+              });
+          }
+        },
+        this.loginForm
+      );
+    },
+    //动态获取验证码
+    changeCode() {
+      let date = new Date();
+      this.loginForm.imgSrc = "/proxy/identifyCode?a=" + date.getTime();
+    },
+
   },
 };
 </script>

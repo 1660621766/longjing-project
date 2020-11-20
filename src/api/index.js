@@ -1,16 +1,13 @@
 import http from './http';
 import {BASE_URL as BaseUrl} from './ipconfig';
-//statisticalPage页面
-export const getModalData = p => http.post( `${BaseUrl}/api/rate`, p);
+//xxx页面
+export const getModalData = params => http.post( `${BaseUrl}/api/rate`, params);
+export const getLoginData = params => http.post( `${BaseUrl}/api/login`, params);
 export default {
-    getModalData(data){
-        return http({
-            url: `${BaseUrl}/api/v1/rpa/stepExecute/rate`,
-            method: 'post',
-            dataType: "json",
-            data: data
-        })
+    getLoginData : function(params) {
+        return http.post( `${BaseUrl}/api/login`, params);
     }
+
 };
 
 
