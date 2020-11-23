@@ -27,10 +27,17 @@
           autocomplete="off"
         ></el-input>
       </el-form-item>
+      <el-form-item label="验证码" prop="identifyCode">
+        <el-input
+          name="identifyCode"
+          v-model="loginForm.identifyCode"
+          @keyup.enter.native.prevent="handleLogin"
+          style="width: 260px"
+        ></el-input>
+        <img class="yz-img" :src="loginForm.imgSrc" @click="changeCode" />
+      </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="handleLogin"
-          >登录</el-button
-        >
+        <el-button type="primary" @click="handleLogin">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -71,20 +78,22 @@ export default {
         pass: "",
         account: "",
         imgSrc: "#", //动态获取验证码
-        checked: true
+        checked: false,//记住密码
+        identifyCode: ""
       },
       logining: false,
       rules: {
         account: [{ validator: validateName, trigger: "blur" }],
         pass: [{ validator: validatePass, trigger: "blur" }],
         identifyCode: [
-          { required: true, message: "请输入验证码", trigger: "blur" }
+          { required: true, message: "请输入验证码", trigger: "blur" },
         ],
       },
     };
   },
   mounted() {
     this.getData();
+    this.changeCode();
   },
   methods: {
     getData() {
@@ -150,9 +159,8 @@ export default {
     //动态获取验证码
     changeCode() {
       let date = new Date();
-      this.loginForm.imgSrc = "/proxy/identifyCode?a=" + date.getTime();
+      this.loginForm.imgSrc = "/proxy/identifyCode?time=" + date.getTime();
     },
-
   },
 };
 </script>

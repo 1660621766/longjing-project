@@ -3,7 +3,7 @@ import { Message } from 'element-ui';
 // import instance from 'src/global/http';
 import router from '@/router'; //路由
 import axios from 'axios';
-import getModalData from '@/api';
+import instance from '@/api/request';
 import Base64 from '../../../static/base64';
 
 const user = {
@@ -56,7 +56,7 @@ const user = {
 			return new Promise((resolve, reject) => {
 				// console.log('登录入参：', userInfo);
 				//调用接口
-				getModalData({a:1}).then(res => {
+				instance.post('/proxy/auth/login', userInfo).then(res => {
 					if (res.status == 200 && res.data.success) {
 						Cookies.set('userName', userInfo.account, { expires: 14, path: '' }); //设置token
 						Cookies.set('refresh', true); //设置是否刷新参数refresh
@@ -76,7 +76,9 @@ const user = {
 						reject(res.data.errorMsg);
 						// Message.error(res.data.errorMsg);
 					}
-				}).catch(error => { });
+				}).catch(error => {
+					console.log(error)
+				 });
 			});
 		},
 		// 获取用户信息
@@ -108,35 +110,9 @@ const user = {
 					}
 					if(userInfos.status == 200 && menus.status == 200) {
 						commit('SET_USERINFO', userInfos.data); //设置用户信息userInfo
-						let menusArr = menus.data.menus; //转为对象
 						let perms = menus.data.perms; //转为对象
-						//只适用于二级菜单
-						for(let index = 0; index < menusArr.length; index++) {
-							if(menusArr[index].children && menusArr[index].children.length > 0) {
-								for(let ind = 0; ind < menusArr[index].children.length; ind++) {
-									if(menusArr[index].children[ind].frontRouting.indexOf("/") != -1){
-										menusArr[index].frontRouting = menusArr[index].children[ind].frontRouting.split("/")[1]; //一级菜单的路由为二级菜单的第1个/之后的
-									}else{
-										menusArr[index].frontRouting = "frontRouting" + Math.random();
-									}
-								}
-							}
-						}
-						let paths = "";
-						if(menusArr.length > 0) {
-							if(menusArr[0].children){
-								if(menusArr[0].children.length == 0){
-									paths = menusArr[0].frontRouting;
-								}else{
-									paths = menusArr[0].children[0].frontRouting;
-								}
-							}else{
-								paths = menusArr[0].frontRouting;
-							}
-						}
 						Cookies.set('routerPath', paths);
 						commit('SET_PATH', paths); //设置路由重定向的路由
-						dispatch('GenerateRoutes', menusArr); //dispatch触发permission 的GenerateRoutes的action  设置菜单
 						dispatch('GeneratePerms', perms); //dispatch触发permission 的GenerateRoutes的action  设置权限
 						resolve();
 					} else {
