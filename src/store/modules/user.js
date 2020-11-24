@@ -56,10 +56,10 @@ const user = {
 			return new Promise((resolve, reject) => {
 				// console.log('登录入参：', userInfo);
 				//调用接口
-				instance.post('/proxy/auth/login', userInfo).then(res => {
+				instance.get('/static/login.json', userInfo).then(res => {
 					if (res.status == 200 && res.data.success) {
 						Cookies.set('userName', userInfo.account, { expires: 14, path: '' }); //设置token
-						Cookies.set('refresh', true); //设置是否刷新参数refresh
+						// Cookies.set('refresh', true); //设置是否刷新参数refresh
 						if (userInfo.checked) {
 							let base = new Base64();
 							let basePassWord = base.encode(userInfo.password); //base64加密设置密码
@@ -70,7 +70,7 @@ const user = {
 							commit('SET_PWD', ''); //修改密码
 						}
 						commit('SET_UID', userInfo.account); //修改用户
-						commit('SET_ENTCODE', userInfo.entCode); //修改企业标识
+						commit('SET_ENTCODE', userInfo.entCode); //修改标识
 						resolve(); //异步操作成功
 					} else {
 						reject(res.data.errorMsg);
@@ -111,6 +111,7 @@ const user = {
 					if(userInfos.status == 200 && menus.status == 200) {
 						commit('SET_USERINFO', userInfos.data); //设置用户信息userInfo
 						let perms = menus.data.perms; //转为对象
+						let paths = "";
 						Cookies.set('routerPath', paths);
 						commit('SET_PATH', paths); //设置路由重定向的路由
 						dispatch('GeneratePerms', perms); //dispatch触发permission 的GenerateRoutes的action  设置权限

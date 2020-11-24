@@ -29,7 +29,7 @@ const constantRouterMap = [
       if(store.getters.routerPath && store.getters.routerPath){
         paths =  store.getters.routerPath;
       }else{
-        paths = '/Login';
+        paths = '/login';
       }
       return paths;
     },

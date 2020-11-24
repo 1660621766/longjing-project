@@ -8,7 +8,7 @@
       autoComplete="on"
       :model="loginForm"
       ref="loginForm"
-      :rules="rules"
+      :rules="loginRules"
       label-position="top"
       label-width="50px"
       class="login_form"
@@ -17,9 +17,6 @@
       <el-form-item label="请输入用户名" prop="account">
         <el-input v-model="loginForm.account"></el-input>
       </el-form-item>
-      <div class="login_form--btn">
-        <el-button type="text">忘记密码?</el-button>
-      </div>
       <el-form-item label="请输入密码" prop="pass">
         <el-input
           type="password"
@@ -27,6 +24,13 @@
           autocomplete="off"
         ></el-input>
       </el-form-item>
+      <div class="login_form--btn">
+        <el-button
+          type="text"
+          @click.native.prevent="sendPassFormVisible = true"
+          >忘记密码?</el-button
+        >
+      </div>
       <el-form-item label="验证码" prop="identifyCode">
         <el-input
           name="identifyCode"
@@ -40,6 +44,22 @@
         <el-button type="primary" @click="handleLogin">登录</el-button>
       </el-form-item>
     </el-form>
+
+    <!--忘记密码弹框-->
+    <el-dialog
+      title="忘记密码"
+      :visible.sync="sendPassFormVisible"
+      top="8%"
+      width="60%"
+      height="570px"
+      lock-scroll
+      class="boxres dialog_input"
+      @close="cancel"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+    >
+      <div>忘记密码</div>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,17 +98,18 @@ export default {
         pass: "",
         account: "",
         imgSrc: "#", //动态获取验证码
-        checked: false,//记住密码
-        identifyCode: ""
+        checked: false, //记住密码
+        identifyCode: "",
       },
       logining: false,
-      rules: {
+      loginRules: {
         account: [{ validator: validateName, trigger: "blur" }],
         pass: [{ validator: validatePass, trigger: "blur" }],
         identifyCode: [
           { required: true, message: "请输入验证码", trigger: "blur" },
         ],
       },
+      sendPassFormVisible: false,
     };
   },
   mounted() {
@@ -133,17 +154,17 @@ export default {
             vm.$store
               .dispatch("Login", formData.param)
               .then((res) => {
-                vm.$store
-                  .dispatch("GetInfo")
-                  .then((res) => {
-                    // 拉取user_info
-                    vm.$router.push({ path: "/" });
-                    vm.logining = false;
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                    vm.logining = false;
-                  });
+                vm.$router.push({ path: "home/Index" });
+                vm.logining = false;
+                // vm.$store.dispatch("GetInfo").then((res) => {
+                //     // 拉取user_info
+                //     vm.$router.push({ path: "/" });
+                //     vm.logining = false;
+                //   })
+                //   .catch((err) => {
+                //     console.log(err);
+                //     vm.logining = false;
+                //   });
               })
               .catch((err) => {
                 Message.error(err);
@@ -160,6 +181,11 @@ export default {
     changeCode() {
       let date = new Date();
       this.loginForm.imgSrc = "/proxy/identifyCode?time=" + date.getTime();
+    },
+    //取消返回登录页面
+    cancel() {
+      this.sendPassFormVisible = false;
+      this.changeCode();
     },
   },
 };

@@ -22,8 +22,8 @@
           >
             <el-menu-item index="/home/Index">首页</el-menu-item>
             <el-menu-item index="/home/Todo">我的代办</el-menu-item>
-            <el-menu-item index="/home/Panel">项目A</el-menu-item>
-            <el-menu-item index="4">项目B</el-menu-item>
+            <el-menu-item index="/home/Panel?A">项目A</el-menu-item>
+            <el-menu-item index="/home/Panel?B">项目B</el-menu-item>
           </el-menu>
         </div>
       </el-header>
@@ -40,7 +40,7 @@ export default {
     };
   },
   mounted() {
-    this.activeIndex=this.$route.path =="/home/Attendance" ? "/home/Panel" : this.$route.path;
+    this.activeIndex=this.$route.path =="/home/Attendance" ? "/home/Panel" : this.$route.fullPath;
     getModalData({
         type: 0,
         sort: 1,
@@ -61,7 +61,7 @@ export default {
   },
   watch:{
     $route(now, old) { //监控路由变换，控制返回按钮的显示
-        this.activeIndex = now.path =="/home/Attendance" ? "/home/Panel" : now.path;
+        this.activeIndex = now.path =="/home/Attendance" ? "/home/Panel" : now.fullPath;
 			}
   },
   methods: {
