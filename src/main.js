@@ -24,6 +24,9 @@ var loadingInstance;//loading组件
 const whiteList = ['/login', '/authredirect', '/reset', '/error/401', '/error/404']; // 不重定向白名单
 //router.beforeEach注册一个全局的before钩子，在导航触发之前判断是否有权限进入改导航页面。
 router.beforeEach((to, from, next) => {
+	if(to.path == '/login') { //先加上，后面再说
+		Cookies.remove('refresh');
+	}
 	if(loadingInstance){
 	    loadingInstance.close();
 	}
@@ -31,7 +34,7 @@ router.beforeEach((to, from, next) => {
 	//在浏览器控制台记录路由跳转
 	// console.log(from, '路由---->', to);
 	// 判断是否有token。接口会有延迟
-	if(!Cookies.get('refresh')) {
+	if(Cookies.get('refresh')) {
 		if(to.path == '/login') { //当其再访问登录页面（to.path === '/login'）时，可直接重定向到首页
 			next({
 				path: '/'

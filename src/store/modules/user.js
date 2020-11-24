@@ -59,7 +59,7 @@ const user = {
 				instance.get('/static/login.json', userInfo).then(res => {
 					if (res.status == 200 && res.data.success) {
 						Cookies.set('userName', userInfo.account, { expires: 14, path: '' }); //设置token
-						// Cookies.set('refresh', true); //设置是否刷新参数refresh
+						Cookies.set('refresh', true); //设置是否刷新参数refresh
 						if (userInfo.checked) {
 							let base = new Base64();
 							let basePassWord = base.encode(userInfo.password); //base64加密设置密码

@@ -22,8 +22,8 @@
           >
             <el-menu-item index="/home/Index">首页</el-menu-item>
             <el-menu-item index="/home/Todo">我的代办</el-menu-item>
-            <el-menu-item index="/home/Panel?A">项目A</el-menu-item>
-            <el-menu-item index="/home/Panel?B">项目B</el-menu-item>
+            <el-menu-item index="/home/Panel?name=aaa">项目A</el-menu-item>
+            <el-menu-item index="/home/Panel?name=bbb">项目B</el-menu-item>
           </el-menu>
         </div>
       </el-header>
@@ -40,6 +40,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$router)
     this.activeIndex=this.$route.path =="/home/Attendance" ? "/home/Panel" : this.$route.fullPath;
     getModalData({
         type: 0,

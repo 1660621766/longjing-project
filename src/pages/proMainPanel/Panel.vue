@@ -1,7 +1,7 @@
 <template>
   <div class="panel-wraper">
     <div class="panel-title">
-      <h4>龙净空气质量环保项目</h4>
+      <h4>龙净空气质量环保项目{{this.$route.query.name}}</h4>
       <span>XA00091001105</span>
       <p>
         龙净空气质量环保项目龙净空气质量环保项目龙净空气质量环保项目龙净空气质量环保项目龙净空气质量环保项目
@@ -103,6 +103,9 @@ export default {
       console.log(tab, event);
     },
   },
+  mounted() {
+    console.log(this.$route)
+  }
 };
 </script>
 

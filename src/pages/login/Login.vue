@@ -113,7 +113,6 @@ export default {
     };
   },
   mounted() {
-    this.getData();
     this.changeCode();
   },
   methods: {
